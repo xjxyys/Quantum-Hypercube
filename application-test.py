@@ -1,4 +1,3 @@
-# %%
 import numpy as np
 from linear_solvers.hhl import HHL
 from src_quantum import *
@@ -21,6 +20,7 @@ if __name__ == '__main__':
                        [0, 10,  0,   0,  9,-36,  0,  10],
                        [0,  0, 10,   0,  7,  0, -36, 10],
                        [0,  0,  0,  16,  0, 16,  16, -30]])
+    np.save('./data/application_transation_matrix.npy', transation_matrix)
     transation_matrix[-1] = np.ones(8)
     b = np.zeros(8)
     b[-1] = 1
@@ -29,17 +29,13 @@ if __name__ == '__main__':
     full_vector = get_full_vector(hhl_solution, 3,)
     print(full_vector)
     print('----------------------------------finish')
-
-# %%
-# M0 = priori_M(transation_matrix)
-A_star = local_spai(transation_matrix, np.eye(8))
-A_star[-1] = 1
-expanded_A_new, expanded_b_new = Expand_A_and_b(A_star, b)
-hhl_solution_new = HHL().solve(expanded_A_new, expanded_b_new)
-full_vector_new = get_full_vector(hhl_solution_new, 3,)
-print('directly solve the primal matrix',full_vector)
-print('solve the preconditioned matrix',full_vector_new)
-exact_solution = np.linalg.solve(expanded_A, expanded_b)
-print(f'exact solution: {exact_solution}')
-
-
+    np.save('./data/application_hhl_vector.npy', full_vector)
+    A_star = local_spai(transation_matrix, np.eye(8))
+    A_star[-1] = 1
+    expanded_A_new, expanded_b_new = Expand_A_and_b(A_star, b)
+    hhl_solution_new = HHL().solve(expanded_A_new, expanded_b_new)
+    full_vector_new = get_full_vector(hhl_solution_new, 3,)
+    print('directly solve the primal matrix',full_vector)
+    print('solve the preconditioned matrix',full_vector_new)
+    exact_solution = np.linalg.solve(expanded_A, expanded_b)
+    print(f'exact solution: {exact_solution}')
