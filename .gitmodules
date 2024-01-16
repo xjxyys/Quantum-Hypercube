@@ -1,0 +1,3 @@
+[submodule "quantum_linear_solvers"]
+	path = quantum_linear_solvers
+	url = https://github.com/anedumla/quantum_linear_solvers.git
